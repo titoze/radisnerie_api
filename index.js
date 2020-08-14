@@ -16,7 +16,14 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => res.json({message: "Server is started."}))
 app.get('/api/productcategories', ProductCategoryController.list);
 app.get('/api/products', ProductController.list);
-app.get('/api/users', UserController.list);
+
+// User Actions
+app.get('/api/users', UserController.getUser);
+app.post('/api/users', UserController.addUser);
+app.put('/api/users', UserController.updateUser);
+app.delete('/api/users', UserController.deleteUser);
+
+
 app.get('*', (req, res) => {
     res.status('404')
     res.json({message: 'An error occured, check that your URL or Method is correct.'})
