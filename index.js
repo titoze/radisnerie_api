@@ -23,7 +23,12 @@ app.post('/api/productcategories', ProductCategoryController.addProductCategory)
 app.put('/api/productcategories', ProductCategoryController.updateProductCategory);
 app.delete('/api/productcategories', ProductCategoryController.deleteProductCategory);
 
-app.get('/api/products', ProductController.list);
+// Product Actions
+app.get('/api/products', ProductController.getProduct);
+app.post('/api/products', ProductController.addProduct);
+app.put('/api/products', ProductController.updateProduct);
+app.delete('/api/products', ProductController.deleteProduct);
+
 
 // User Actions
 app.get('/api/users', UserController.getUser);
