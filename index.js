@@ -13,8 +13,16 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/', (req, res) => res.json({message: "Server is started."}))
-app.get('/api/productcategories', ProductCategoryController.list);
+app.get('/', (req, res) => res.json({
+    message: "Server is started."
+}))
+
+// Product Categories Actions
+app.get('/api/productcategories', ProductCategoryController.getProductCategory);
+app.post('/api/productcategories', ProductCategoryController.addProductCategory);
+app.put('/api/productcategories', ProductCategoryController.updateProductCategory);
+app.delete('/api/productcategories', ProductCategoryController.deleteProductCategory);
+
 app.get('/api/products', ProductController.list);
 
 // User Actions
@@ -26,7 +34,9 @@ app.delete('/api/users', UserController.deleteUser);
 
 app.get('*', (req, res) => {
     res.status('404')
-    res.json({message: 'An error occured, check that your URL or Method is correct.'})
+    res.json({
+        message: 'An error occured, check that your URL or Method is correct.'
+    })
 })
 
 app.listen(3000, () => console.log('serveur démarré'))
