@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
 
   User.associate = function(models) {
-    // associations can be defined here
+    User.hasMany(models.CreditCard, {
+      foreignKey: 'userId',
+      as: 'users',
+      onDelete: 'CASCADE',
+    });
   };
 
   return User;

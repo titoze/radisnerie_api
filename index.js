@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const ProductController = require('./controllers/product')
 const UserController = require('./controllers/user')
 const ProductCategoryController = require('./controllers/product_category')
+const creditCardController = require('./controllers/credit_card')
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
@@ -35,6 +36,12 @@ app.get('/api/users', UserController.getUser);
 app.post('/api/users', UserController.addUser);
 app.put('/api/users', UserController.updateUser);
 app.delete('/api/users', UserController.deleteUser);
+
+// Credit Card Actions
+app.get('/api/creditcards', creditCardController.getCreditCard);
+app.post('/api/creditcards', creditCardController.addCreditCard);
+app.put('/api/creditcards', creditCardController.updateCreditCard);
+app.delete('/api/creditcards', creditCardController.deleteCreditCard);
 
 
 app.get('*', (req, res) => {
