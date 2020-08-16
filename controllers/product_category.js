@@ -17,9 +17,7 @@ const getProductCategory = (request, response) => {
 }
 
 const addProductCategory = (request, response) => {
-  const date = new Date().toLocaleString()
-  
-   pool.query(`INSERT INTO "ProductCategories" ("name", "createdAt", "updatedAt") VALUES ('${request.body.name}', '${date}', '${date}')`, (error, results) => {
+  pool.query(`INSERT INTO "ProductCategories" ("name") VALUES ('${request.body.name}')`, (error, results) => {
     if (error) {
       throw error
     }

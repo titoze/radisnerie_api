@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     city: DataTypes.STRING,
     zip: DataTypes.STRING,
     password: DataTypes.STRING,
-    is_premium: DataTypes.BOOLEAN
+    is_premium: DataTypes.BOOLEAN,
+    role: DataTypes.STRING,
   }, {});
 
   User.associate = function(models) {

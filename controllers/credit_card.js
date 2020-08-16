@@ -11,9 +11,7 @@ const getCreditCard = (request, response) => {
 }
 
 const addCreditCard = (request, response) => {
-  const date = new Date().toLocaleString()
-  
-   pool.query(`INSERT INTO "CreditCards" ("numbers", "userId", "createdAt", "updatedAt") VALUES ('${request.body.numbers}', '${request.body.userId}', '${date}', '${date}')`, (error, results) => {
+  pool.query(`INSERT INTO "CreditCards" ("numbers", "userId") VALUES ('${request.body.numbers}', '${request.body.userId}')`, (error, results) => {
     if (error) {
       throw error
     }

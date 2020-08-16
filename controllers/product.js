@@ -17,9 +17,7 @@ const getProduct = (request, response) => {
 }
 
 const addProduct = (request, response) => {
-  const date = new Date().toLocaleString()
-  
-   pool.query(`INSERT INTO "Products" ("name", "description", "price", "image", "stock", "productCategoryId", "createdAt", "updatedAt") VALUES ('${request.body.name}', '${request.body.description}', '${request.body.price}', '${request.body.image}', '${request.body.stock}', '${request.body.productCategoryId}', '${date}', '${date}')`, (error, results) => {
+  pool.query(`INSERT INTO "Products" ("name", "description", "price", "image", "stock", "productCategoryId") VALUES ('${request.body.name}', '${request.body.description}', '${request.body.price}', '${request.body.image}', '${request.body.stock}', '${request.body.productCategoryId}')`, (error, results) => {
     if (error) {
       throw error
     }

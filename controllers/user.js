@@ -17,10 +17,13 @@ const getUser = (request, response) => {
 }
 
 const addUser = (request, response) => {
-  const date = new Date().toLocaleString()
-  
-   pool.query(`INSERT INTO "Users" ("firstname", "lastname", "email", "address", "additional_address", "city", "zip", "password", "is_premium", "createdAt", "updatedAt") VALUES ('${request.body.firstname}', '${request.body.lastname}', '${request.body.email}', '${request.body.address}', '${request.body.additional_address}', '${request.body.city}', '${request.body.zip}', '${request.body.password}', '${request.body.is_premium}', '${date}', '${date}')`, (error, results) => {
+   pool.query(`INSERT INTO "Users" ("firstname", "lastname", "email", "address", "additional_address", "city", "zip", "password", "is_premium") VALUES ('${request.body.firstname}', '${request.body.lastname}', '${request.body.email}', '${request.body.address}', '${request.body.additional_address}', '${request.body.city}', '${request.body.zip}', '${request.body.password}', '${request.body.is_premium}')`, (error, results) => {
     if (error) {
+      if (error.code === '23505') {
+        response.status(404).json({error: 'Email already in database.'})
+        return
+      }
+      
       throw error
     }
     response.status(200).json('User succesfully added')

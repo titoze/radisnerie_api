@@ -13,8 +13,6 @@ module.exports = {
         zip: '59300',
         password: 'azerty',
         is_premium: false,
-        createdAt: new Date(),
-        updatedAt: new Date(),
       },
       {
         firstname: 'Toto',
@@ -25,8 +23,6 @@ module.exports = {
         zip: '59000',
         password: '123456',
         is_premium: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
       },
     ],
     {},
