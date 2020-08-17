@@ -5,17 +5,13 @@ module.exports = {
     'Recipes',
     [
       {
-        name: 'Blanquette de veau',
+        name: 'Ratatouille',
         caloric: '575'
       },
       {
-        name: 'Lasagnes à la bolognaise',
+        name: 'Rosti au Maroilles',
         caloric: '2500'
-      },
-      {
-        name: 'Hachis Parmentier',
-        caloric: '650'
-      },
+      }
     ],
     {},
   ),

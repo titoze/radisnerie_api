@@ -5,14 +5,20 @@ module.exports = {
     'CreditCards',
     [
       {
-        numbers: '2222222222222222',
+        numbers: '5522080321918963',
+        userId: '2',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        numbers: '5552392800232151',
         userId: '3',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        numbers: '11111111111111111',
-        userId: '2',
+        numbers: '4359266798857203',
+        userId: '3',
         createdAt: new Date(),
         updatedAt: new Date()
       },
