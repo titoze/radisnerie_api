@@ -70,6 +70,14 @@ app.post('/api/recipeproducts', recipeProductController.addRecipeProduct);
 app.put('/api/recipeproducts', recipeProductController.updateRecipeProduct);
 app.delete('/api/recipeproducts', recipeProductController.deleteRecipeProduct);
 
+app.get('/test', (request, response) => {
+    response.writeHead(200, {
+        'Content-Type': 'text/plain'
+    });
+    response.write('Server is running on !');
+    response.end();
+})
+
 
 app.get('*', (req, res) => {
     res.status('404')
