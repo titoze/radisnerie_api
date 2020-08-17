@@ -8,6 +8,7 @@ const creditCardController = require('./controllers/credit_card')
 const recipeController = require('./controllers/recipe')
 const recipeProductController = require('./controllers/recipe_product')
 const basketController = require('./controllers/basket')
+const commandController = require('./controllers/command')
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
@@ -57,6 +58,10 @@ app.get('/api/baskets', basketController.getBasket);
 app.post('/api/baskets', basketController.addBasket);
 app.put('/api/baskets', basketController.updateBasket);
 app.delete('/api/baskets', basketController.deleteBasket);
+
+// Command Actions
+app.get('/api/commands', commandController.getCommand);
+app.post('/api/commands', commandController.addCommand);
 
 // Recipe Products Actions
 app.get('/api/recipeproducts', recipeProductController.getRecipeProduct);
