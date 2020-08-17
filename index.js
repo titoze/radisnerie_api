@@ -9,6 +9,7 @@ const recipeController = require('./controllers/recipe')
 const recipeProductController = require('./controllers/recipe_product')
 const basketController = require('./controllers/basket')
 const commandController = require('./controllers/command')
+const PORT = process.env.PORT || 3000
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
@@ -86,4 +87,4 @@ app.get('*', (req, res) => {
     })
 })
 
-app.listen(3000, () => console.log('serveur démarré'))
+app.listen(PORT, () => console.log('serveur démarré'))
