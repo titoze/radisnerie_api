@@ -40,6 +40,7 @@ app.get('/api/users', UserController.getUser);
 app.post('/api/users', UserController.addUser);
 app.put('/api/users', UserController.updateUser);
 app.delete('/api/users', UserController.deleteUser);
+app.post('/api/login', UserController.login);
 
 // Credit Card Actions
 app.get('/api/creditcards', creditCardController.getCreditCard);

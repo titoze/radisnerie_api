@@ -1,5 +1,6 @@
 const pool = require('../database/credentials').pool
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const getUser = async (request, response) => {
   try {
@@ -63,9 +64,39 @@ const deleteUser = (request, response) => {
   })
 }
 
+const login = async (request, response) => {
+  const user = await pool.query(`SELECT * from "Users" where "email" like '${request.body.email}'`).then(response => response.rows)
+  
+  if (user.length === 0) {
+    response.status(404).json({error:'User not found.'})
+    return
+  }
+
+  if (await bcrypt.compare(request.body.password, user[0].password)) {
+    jsonWebToken = {
+      userId: user[0].id,
+      email: user[0].email,
+      token: jwt.sign(
+          {},
+          'RSA_PRIVATE_KEY',
+          {
+              algorithm: 'HS256',
+              expiresIn: "24h",
+              subject: user[0].email
+           }
+      )
+    }
+
+    response.status(200).json(jsonWebToken)
+  } else {
+    response.status(404).json({error: 'Invalid Password.'})
+  }
+}
+
 module.exports = {
   getUser,
   addUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  login
 }
