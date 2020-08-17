@@ -1,4 +1,5 @@
 const pool = require('../database/credentials').pool
+const bcrypt = require('bcrypt');
 
 const getUser = async (request, response) => {
   try {
@@ -25,8 +26,9 @@ const getUser = async (request, response) => {
   }
 }
 
-const addUser = (request, response) => {
-  pool.query(`INSERT INTO "Users" ("firstname", "lastname", "email", "address", "additional_address", "city", "zip", "password", "is_premium") VALUES ('${request.body.firstname}', '${request.body.lastname}', '${request.body.email}', '${request.body.address}', '${request.body.additional_address}', '${request.body.city}', '${request.body.zip}', '${request.body.password}', '${request.body.is_premium}')`, (error, results) => {
+const addUser = async (request, response) => {
+  const encryptedPassword = await bcrypt.hash(request.body.password, 10)
+  pool.query(`INSERT INTO "Users" ("firstname", "lastname", "email", "address", "additional_address", "city", "zip", "password", "is_premium") VALUES ('${request.body.firstname}', '${request.body.lastname}', '${request.body.email}', '${request.body.address}', '${request.body.additional_address}', '${request.body.city}', '${request.body.zip}', '${encryptedPassword}', '${request.body.is_premium}')`, (error, results) => {
     if (error) {
       if (error.code === '23505') {
         response.status(404).json({
