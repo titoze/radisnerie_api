@@ -6,15 +6,15 @@ const getCommand = async (request, response) => {
   let results
   let clientInformation
 
-  if (request.body.id !== 'ALL') {
-    sqlRequest = `select * from "Commands" where id = ${request.body.id}`
+  if (request.query.id !== 'all') {
+    sqlRequest = `select * from "Commands" where id = ${request.query.id}`
   } else {
     sqlRequest = 'SELECT * FROM "Commands"'
   }
 
   try {
     results = await pool.query(sqlRequest).then(response => response.rows)
-    clientInformation = await pool.query(`select * from "Users" where id = ${request.body.userId}`).then(response => response.rows)
+    clientInformation = await pool.query(`select * from "Users" where id = ${results[0].userId}`).then(response => response.rows)
   } catch (err) {
     response.status(404).json({
       error: 'An error occured during the process.'

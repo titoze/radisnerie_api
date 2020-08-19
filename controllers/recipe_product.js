@@ -3,8 +3,8 @@ const pool = require('../database/credentials').pool;
 const getRecipeProduct = (request, response) => {
   let sqlRequest = 'SELECT * FROM "RecipeProducts"'
 
-  if (request.body.id !== 'ALL') {
-    sqlRequest = `select * from "RecipeProducts" where id = ${request.body.id}`
+  if (request.query.id !== 'all') {
+    sqlRequest = `select * from "RecipeProducts" where id = ${request.query.id}`
   }
 
   pool.query(sqlRequest, (error, results) => {

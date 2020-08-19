@@ -5,8 +5,8 @@ const getBasket = async (request, response) => {
   let sqlRequest
   let results
 
-  if (request.body.id !== 'ALL') {
-    sqlRequest = `select * from "Baskets" where id = ${request.body.id}`
+  if (request.query.id !== 'all') {
+    sqlRequest = `select * from "Baskets" where id = ${request.query.id}`
   } else {
     sqlRequest = 'SELECT * FROM "Baskets"'
   }

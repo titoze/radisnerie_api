@@ -1,7 +1,7 @@
 const pool = require('../database/credentials').pool
 
 const getCreditCard = (request, response) => {
-  pool.query(`select * from "CreditCards" where id = ${request.body.userId}`, (error, results) => {
+  pool.query(`select * from "CreditCards" where "CreditCards"."userId" = ${Number(request.query.userId)}`, (error, results) => {
     if (error) {
       response.status(404).json('Credit Card could not be found.')
       throw error

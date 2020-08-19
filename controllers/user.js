@@ -8,10 +8,10 @@ const getUser = async (request, response) => {
     let commands = []
     let sqlRequest = 'SELECT * FROM "Users"'
 
-    if (request.body.id !== 'ALL') {
-      sqlRequest = `SELECT * from "Users" where id = ${request.body.id}`
-      creditCards = await pool.query(`SELECT * from "CreditCards" where "userId" = ${request.body.id}`).then(response => response.rows)
-      commands = await pool.query(`SELECT * from "Commands" where "userId" = ${request.body.id} order by date desc`).then(response => response.rows)
+    if (request.query.id !== 'all') {
+      sqlRequest = `SELECT * from "Users" where id = ${request.query.id}`
+      creditCards = await pool.query(`SELECT * from "CreditCards" where "userId" = ${request.query.id}`).then(response => response.rows)
+      commands = await pool.query(`SELECT * from "Commands" where "userId" = ${request.query.id} order by date desc`).then(response => response.rows)
     }
     let results = await pool.query(sqlRequest).then(response => response.rows)
 

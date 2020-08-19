@@ -5,8 +5,8 @@ const getRecipe = async (request, response) => {
   let sqlRequest
   let results
 
-  if (request.body.id !== 'ALL') {
-    sqlRequest = `select * from "Recipes" where id = ${request.body.id}`
+  if (request.query.id !== 'all') {
+    sqlRequest = `select * from "Recipes" where id = ${request.query.id}`
   } else {
     sqlRequest = 'SELECT * FROM "Recipes"'
   }
