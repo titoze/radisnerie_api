@@ -4,8 +4,12 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     price: DataTypes.FLOAT,
     date: DataTypes.DATE,
-    description: DataTypes.STRING,
-    image: DataTypes.STRING
+    address: DataTypes.STRING,
+    additional_address: DataTypes.STRING,
+    city: DataTypes.STRING,
+    zip: DataTypes.STRING,
+    deliveryDate: DataTypes.DATE,
+    deliveryStatus: DataTypes.STRING
   }, {});
 
   Command.associate = function(models) {

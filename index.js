@@ -64,6 +64,7 @@ app.delete('/api/baskets', basketController.deleteBasket);
 // Command Actions
 app.get('/api/commands', commandController.getCommand);
 app.post('/api/commands', commandController.addCommand);
+app.put('/api/commands', commandController.updateCommand);
 
 // Recipe Products Actions
 app.get('/api/recipeproducts', recipeProductController.getRecipeProduct);

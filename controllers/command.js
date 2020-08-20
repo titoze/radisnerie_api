@@ -41,7 +41,7 @@ const getCommand = async (request, response) => {
 const addCommand = async (request, response) => {
   try {
     let totalPrice = 0
-    const response = await pool.query(`INSERT INTO "Commands" ("userId", "price") VALUES ('${request.body.userId}', '0') returning id`)
+    const response = await pool.query(`INSERT INTO "Commands" ("userId", "price", "address", "additional_address", "city", "zip", "deliveryDate") VALUES ('${request.body.userId}', '0', '${request.body.address}', '${request.body.additional_address}', '${request.body.city}', '${request.body.zip}', '${request.body.deliveryDate}') returning id`)
     const id = response.rows[0].id
 
     if (request.body.baskets.length > 0) {
@@ -67,8 +67,20 @@ const addCommand = async (request, response) => {
   response.status(200).json('Command succesfully added')
 }
 
+const updateCommand = async (request,response) => {
+  const result = await pool.query(`UPDATE "Commands" set "deliveryStatus" = '${request.body.deliveryStatus}' where id = ${request.body.id}`)
+
+  if(result.rowCount = 0) {
+    response.status(404).json({error: 'An error occured while updating your command status.'})
+  }
+ 
+
+  response.status(200).json('Command status successfully updated !')
+}
+
 
 module.exports = {
   getCommand,
-  addCommand
+  addCommand,
+  updateCommand
 }
