@@ -3,7 +3,9 @@ module.exports = (sequelize, DataTypes) => {
   const Command = sequelize.define('Command', {
     userId: DataTypes.INTEGER,
     price: DataTypes.FLOAT,
-    date: DataTypes.DATE
+    date: DataTypes.DATE,
+    description: DataTypes.STRING,
+    image: DataTypes.STRING
   }, {});
 
   Command.associate = function(models) {

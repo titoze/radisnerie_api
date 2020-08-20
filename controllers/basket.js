@@ -31,7 +31,7 @@ const getBasket = async (request, response) => {
 
 const addBasket = async (request, response) => {
   try {
-    const response = await pool.query(`INSERT INTO "Baskets" ("name", "price") VALUES ('${request.body.name}', '${request.body.price}') returning id`)
+    const response = await pool.query(`INSERT INTO "Baskets" ("name", "price", "description", "image") VALUES ('${request.body.name}', '${request.body.price}', '${request.body.description}', '${request.body.image}') returning id`)
     const id = response.rows[0].id
 
     if (request.body.products.length > 0) {
@@ -56,7 +56,7 @@ const updateBasket = async (request, response) => {
   const date = new Date().toLocaleString()
 
   try {
-    await pool.query(`Update "Baskets" SET "name" = '${request.body.name}', "price" = '${request.body.price}', "updatedAt" = '${date}' where id = ${request.body.id}`)
+    await pool.query(`Update "Baskets" SET "name" = '${request.body.name}', "price" = '${request.body.price}', "description" = '${request.body.description}', "image" = '${request.body.image}', "updatedAt" = '${date}' where id = ${request.body.id}`)
     const products = await pool.query(`Select * from "BasketProducts" where "basketId" = ${request.body.id}`).then(response => response.rows.map(element => element.productId))
 
     for (let product of request.body.products) {
