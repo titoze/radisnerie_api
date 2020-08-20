@@ -6,12 +6,14 @@ const getCommand = async (request, response) => {
   let results
   let clientInformation
 
-  if (request.query.id === 'all') {
+  if (request.query.id && request.query.id === 'all') {
     sqlRequest = 'SELECT * FROM "Commands"'
-  }  else if (request.query.userId) {
-    sqlRequest = `SELECT * FROM "Commands" where "Commands"."userId" = ${Number(request.query.userId)}`
-  } else if (request.query.id !== 'all') {
+  }  else if (request.query.id && request.query.id !== 'all') {
     sqlRequest = `select * from "Commands" where id = ${request.query.id}`
+  }  else if (request.query.userId && request.query.lastCommand) {
+    sqlRequest = `select * from "Commands" where "Commands"."userId" = ${request.query.userId} order by date desc limit 1`
+  } else if (request.query.userId) {
+    sqlRequest = `SELECT * FROM "Commands" where "Commands"."userId" = ${Number(request.query.userId)}`
   } else {
     response.status(404).json({error: 'Something went wrong.'})
     return
