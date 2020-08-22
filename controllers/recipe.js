@@ -42,7 +42,7 @@ const getRecipe = async (request, response) => {
   }
 
   for (let result of results) {
-    result.products = await pool.query(`select "Products".* from "RecipeProducts" inner join "Products" on "Products"."id" = "RecipeProducts"."productId" where "RecipeProducts"."recipeId" = ${result.id}`).then(response => response.rows)
+    result.products = await pool.query(`select "Products".*, "RecipeProducts"."unity","RecipeProducts"."quantity" from "RecipeProducts" inner join "Products" on "Products"."id" = "RecipeProducts"."productId" where "RecipeProducts"."recipeId" = ${result.id}`).then(response => response.rows)
     result.products.forEach(product => apiManager.deleteUselessAttributes(product))
     apiManager.deleteUselessAttributes(result)
   }
@@ -57,7 +57,7 @@ const addRecipe = async (request, response) => {
 
     if (request.body.products.length > 0) {
       for (let product of request.body.products) {
-        await pool.query(`INSERT INTO "RecipeProducts" ("productId", "recipeId") VALUES ('${product}', '${id}')`)
+        await pool.query(`INSERT INTO "RecipeProducts" ("productId", "recipeId", "unity", "quantity") VALUES ('${product.id}', '${id}', '${product.unity}', '${product.quantity}')`)
       }
     }
   } catch (err) {
@@ -78,20 +78,21 @@ const updateRecipe = async (request, response) => {
 
   try {
     await pool.query(`Update "Recipes" SET "name" = '${request.body.name}', "caloric" = '${request.body.caloric}', "realisationTime" = '${request.body.realisationTime}', "difficulty" = '${request.body.difficulty}', "updatedAt" = '${date}' where id = ${request.body.id}`)
-    const products = await pool.query(`Select * from "RecipeProducts" where "recipeId" = ${request.body.id}`).then(response => response.rows.map(element => element.productId))
+    const productsInRecipe = await pool.query(`Select * from "RecipeProducts" where "recipeId" = ${request.body.id}`).then(response => response.rows.map(element => element.productId))
+    const productsInRequest = request.body.products.map(element => element.id)
 
     for (let product of request.body.products) {
-      if (products.includes(product)) {
-        continue
+      if (productsInRecipe.includes(product.id)) {
+        await pool.query(`UPDATE "RecipeProducts" SET "unity" = '${product.unity}', "quantity" = '${product.quantity}' where "RecipeProducts"."recipeId" = ${request.body.id} and "RecipeProducts"."productId" = ${product.id}`)
       }
 
-      if (!products.includes(product)) {
-        await pool.query(`INSERT INTO "RecipeProducts" ("productId", "recipeId") VALUES ('${product}', '${request.body.id}')`)
+      if (!productsInRecipe.includes(product.id)) {
+        await pool.query(`INSERT INTO "RecipeProducts" ("productId", "recipeId", "unity", "quantity") VALUES ('${product.id}', '${request.body.id}', '${product.unity}', '${product.quantity}')`)
       }
     }
 
-    for (let element of products) {
-      if (!request.body.products.includes(element)) {
+    for (let element of productsInRecipe) {
+      if (!productsInRequest.includes(element)) {
         await pool.query(`Delete from "RecipeProducts" where "productId" = ${element} and "recipeId" = ${request.body.id}`)
       }
     }

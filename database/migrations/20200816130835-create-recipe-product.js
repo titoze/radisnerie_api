@@ -16,6 +16,14 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      quantity: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+      },
+      unity: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

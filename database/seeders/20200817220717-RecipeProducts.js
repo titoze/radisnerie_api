@@ -6,19 +6,27 @@ module.exports = {
     [
       {
         recipeId: 1,
-        productId: 2
+        productId: 2,
+        unity: 'g',
+        quantity: 100
       },
       {
         recipeId: 1,
-        productId: 3
+        productId: 3,
+        unity: 'g',
+        quantity: 175
       },
       {
         recipeId: 1,
-        productId: 4
+        productId: 4,
+        unity: 'g',
+        quantity: 175
       },
       {
         recipeId: 2,
-        productId: 1
+        productId: 1,
+        unity: 'g',
+        quantity: 50
       }
     ],
     {},
