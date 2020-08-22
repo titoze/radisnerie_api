@@ -1,6 +1,7 @@
-const deleteUselessAttributes = (obj) => {
-    delete obj.createdAt
-    delete obj.updatedAt
+const deleteUselessAttributes = (obj, array) => {
+    for (const element of array) {
+        delete obj[`${element}`]
+    }
 }
 
 module.exports = { deleteUselessAttributes }

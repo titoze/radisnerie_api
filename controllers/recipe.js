@@ -22,6 +22,17 @@ const getRecipe = async (request, response) => {
     }
 
     sqlRequest += ` group by "Recipes".id having count("Recipes".id) > ${products.length - 1}`
+  } else if(request.query.tags && request.query.tags.split(',').length === 1) {
+    sqlRequest = `select "Recipes".* from "Recipes" inner join "RecipeTags" on "RecipeTags"."recipeId" = "Recipes".id where lower("RecipeTags"."name") like lower('${request.query.tags}')`
+  } else if(request.query.tags && request.query.tags.split(',').length > 1) {
+    const tags = request.query.tags.split(',')
+    sqlRequest = `select "Recipes".* from "Recipes" inner join "RecipeTags" on "RecipeTags"."recipeId" = "Recipes".id where lower("RecipeTags"."name") like lower('${tags[0]}')`
+
+    for (let index = 1; index < tags.length; index++) {
+      sqlRequest += ` or lower("RecipeTags"."name") like lower('${tags[index]}') `
+    }
+
+    sqlRequest += ` group by "Recipes".id having count("Recipes".id) > ${tags.length - 1}`
   } else {
     response.status(404).json({error: 'Invalid params used in url.'})
     return
@@ -43,8 +54,9 @@ const getRecipe = async (request, response) => {
 
   for (let result of results) {
     result.products = await pool.query(`select "Products".*, "RecipeProducts"."unity","RecipeProducts"."quantity" from "RecipeProducts" inner join "Products" on "Products"."id" = "RecipeProducts"."productId" where "RecipeProducts"."recipeId" = ${result.id}`).then(response => response.rows)
-    result.products.forEach(product => apiManager.deleteUselessAttributes(product))
-    apiManager.deleteUselessAttributes(result)
+    result.tags = await pool.query(`SELECT * from "RecipeTags" where "RecipeTags"."recipeId" = ${result.id}`).then(response => response.rows.map(tag => tag.name))
+    result.products.forEach(product => apiManager.deleteUselessAttributes(product, ['createdAt', 'updatedAt']))
+    apiManager.deleteUselessAttributes(result, ['createdAt', 'updatedAt'])
   }
 
   response.status(200).json(results)
@@ -70,6 +82,12 @@ const addRecipe = async (request, response) => {
     throw err
   }
 
+  if (request.body.tags.length >0) {
+    for (let tag of request.body.tags) {
+      await pool.query(`INSERT INTO "RecipeTags" ("recipeId", "name") VALUES ('${id}', '${tag}')`)
+    }
+  }
+
   response.status(200).json('Recipe succesfully added')
 }
 
@@ -80,6 +98,7 @@ const updateRecipe = async (request, response) => {
     await pool.query(`Update "Recipes" SET "name" = '${request.body.name}', "caloric" = '${request.body.caloric}', "realisationTime" = '${request.body.realisationTime}', "difficulty" = '${request.body.difficulty}', "updatedAt" = '${date}' where id = ${request.body.id}`)
     const productsInRecipe = await pool.query(`Select * from "RecipeProducts" where "recipeId" = ${request.body.id}`).then(response => response.rows.map(element => element.productId))
     const productsInRequest = request.body.products.map(element => element.id)
+    const tagsInRecipe = await pool.query(`Select * from "RecipeTags" where "recipeId" = ${request.body.id}`).then(response => response.rows.map(element => element.name))
 
     for (let product of request.body.products) {
       if (productsInRecipe.includes(product.id)) {
@@ -91,9 +110,26 @@ const updateRecipe = async (request, response) => {
       }
     }
 
+    for (let tag of request.body.tags) {
+      if (tagsInRecipe.includes(tag)) {
+        continue
+      }
+
+      if (!tagsInRecipe.includes(tag)) {
+        await pool.query(`INSERT INTO "RecipeTags" ("recipeId", "name") VALUES ('${request.body.id}', '${tag}')`)
+        continue
+      }
+    }
+
     for (let element of productsInRecipe) {
       if (!productsInRequest.includes(element)) {
         await pool.query(`Delete from "RecipeProducts" where "productId" = ${element} and "recipeId" = ${request.body.id}`)
+      }
+    }
+
+    for (let element of tagsInRecipe) {
+      if (!request.body.tags.includes(element)) {
+        await pool.query(`Delete from "RecipeTags" where "name" = '${element}' and "recipeId" = ${request.body.id}`)
       }
     }
 

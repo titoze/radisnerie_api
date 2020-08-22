@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       as: 'RecipeProducts',
       onDelete: 'CASCADE',
     });
+    Recipe.hasMany(models.RecipeTag, {
+      foreignKey: 'recipeId',
+      as: 'RecipeTags',
+      onDelete: 'CASCADE',
+    });
   };
 
   return Recipe;
