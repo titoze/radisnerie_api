@@ -1,19 +1,25 @@
 const pool = require('../database/credentials').pool;
 
-const getProduct = (request, response) => {
-  let sqlRequest = 'SELECT * FROM "Products"'
+const getProduct = async (request, response) => {
+  let sqlRequest
 
-  if (request.query.id !== 'all') {
+  if (request.query.id && request.query.id !== 'all' && !!Number(request.query.id)) {
     sqlRequest = `select * from "Products" where id = ${request.query.id}`
+  } else if (request.query.id && request.query.id === 'all') {
+    sqlRequest = 'SELECT * FROM "Products"'
+  } else {
+    response.status(404).json({error: 'Invalid params used in url.'})
+    return
   }
 
-  pool.query(sqlRequest, (error, results) => {
-    if (error) {
-      response.status(404).json('Product could not be found.')
-      throw error
-    }
-    response.status(200).json(results.rows)
-  })
+  const results = await pool.query(sqlRequest)
+
+  if (results.rows.length === 0) {
+    response.status(404).json('No product(s) were found.')
+    return
+  }
+  
+  response.status(200).json(results.rows)
 }
 
 const addProduct = (request, response) => {

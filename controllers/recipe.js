@@ -5,10 +5,26 @@ const getRecipe = async (request, response) => {
   let sqlRequest
   let results
 
-  if (request.query.id !== 'all') {
+  if (request.query.id && request.query.id !== 'all' && !!Number(request.query.id)) {
     sqlRequest = `select * from "Recipes" where id = ${request.query.id}`
-  } else {
+  } else if (request.query.id && request.query.id === 'all') {
     sqlRequest = 'SELECT * FROM "Recipes"'
+  } else if(request.query.difficulty) {
+    sqlRequest = `SELECT * FROM "Recipes" where "Recipes"."difficulty" = '${request.query.difficulty}'`
+  } else if(request.query.products && request.query.products.split(',').length === 1) {
+    sqlRequest = `select "Recipes".* from "Recipes" inner join "RecipeProducts" on "Recipes".id = "RecipeProducts"."recipeId" inner join "Products" on "Products".id = "RecipeProducts"."productId" where lower("Products"."name") like '${request.query.products}'`
+  } else if(request.query.products && request.query.products.split(',').length > 1) {
+    const products = request.query.products.split(',')
+    sqlRequest = `select "Recipes".* from "Recipes" inner join "RecipeProducts" on "Recipes".id = "RecipeProducts"."recipeId" inner join "Products" on "Products".id = "RecipeProducts"."productId" where lower("Products"."name") like '${products[0]}'`
+
+    for (let index = 1; index < products.length; index++) {
+      sqlRequest += ` or lower("Products"."name") like '${products[index]}' `
+    }
+
+    sqlRequest += ` group by "Recipes".id having count("Recipes".id) > ${products.length - 1}`
+  } else {
+    response.status(404).json({error: 'Invalid params used in url.'})
+    return
   }
 
   try {
@@ -18,6 +34,11 @@ const getRecipe = async (request, response) => {
       error: 'An error occured during the process.'
     })
     return err
+  }
+
+
+  if (results.length === 0) {
+    response.status(404).json({error: "No recipe(s) were found."})
   }
 
   for (let result of results) {
