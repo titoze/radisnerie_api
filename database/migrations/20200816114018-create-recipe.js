@@ -15,6 +15,12 @@ module.exports = {
       caloric: {
         type: Sequelize.STRING
       },
+      realisationTime: {
+        type: Sequelize.STRING
+      },
+      difficulty: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

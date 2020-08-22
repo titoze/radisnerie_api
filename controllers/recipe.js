@@ -31,7 +31,7 @@ const getRecipe = async (request, response) => {
 
 const addRecipe = async (request, response) => {
   try {
-    const response = await pool.query(`INSERT INTO "Recipes" ("name", "caloric") VALUES ('${request.body.name}', '${request.body.caloric}') returning id`)
+    const response = await pool.query(`INSERT INTO "Recipes" ("name", "caloric", "realisationTime", "difficulty") VALUES ('${request.body.name}', '${request.body.caloric}', '${request.body.realisationTime}', '${request.body.difficulty}') returning id`)
     const id = response.rows[0].id
 
     if (request.body.products.length > 0) {
@@ -56,9 +56,9 @@ const updateRecipe = async (request, response) => {
   const date = new Date().toLocaleString()
 
   try {
-    await pool.query(`Update "Recipes" SET "name" = '${request.body.name}', "caloric" = '${request.body.caloric}', "updatedAt" = '${date}' where id = ${request.body.id}`)
+    await pool.query(`Update "Recipes" SET "name" = '${request.body.name}', "caloric" = '${request.body.caloric}', "realisationTime" = '${request.body.realisationTime}', "difficulty" = '${request.body.difficulty}', "updatedAt" = '${date}' where id = ${request.body.id}`)
     const products = await pool.query(`Select * from "RecipeProducts" where "recipeId" = ${request.body.id}`).then(response => response.rows.map(element => element.productId))
-    console.log(products)
+
     for (let product of request.body.products) {
       if (products.includes(product)) {
         continue

@@ -2,7 +2,9 @@
 module.exports = (sequelize, DataTypes) => {
   const Recipe = sequelize.define('Recipe', {
     name: DataTypes.STRING,
-    caloric: DataTypes.STRING
+    caloric: DataTypes.STRING,
+    difficulty: DataTypes.STRING,
+    realisationTime: DataTypes.STRING
   }, {});
 
   Recipe.associate = function(models) {

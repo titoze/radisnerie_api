@@ -6,11 +6,16 @@ module.exports = {
     [
       {
         name: 'Ratatouille',
-        caloric: '575'
+        caloric: '575',
+        realisationTime: 60,
+        difficulty: 'medium'
       },
       {
         name: 'Rosti au Maroilles',
-        caloric: '2500'
+        caloric: '2500',
+        realisationTime: 30,
+        difficulty: 'easy'
+
       }
     ],
     {},
