@@ -12,13 +12,13 @@ const getRecipe = async (request, response) => {
   } else if(request.query.difficulty) {
     sqlRequest = `SELECT * FROM "Recipes" where "Recipes"."difficulty" = '${request.query.difficulty}'`
   } else if(request.query.products && request.query.products.split(',').length === 1) {
-    sqlRequest = `select "Recipes".* from "Recipes" inner join "RecipeProducts" on "Recipes".id = "RecipeProducts"."recipeId" inner join "Products" on "Products".id = "RecipeProducts"."productId" where lower("Products"."name") like '${request.query.products}'`
+    sqlRequest = `select "Recipes".* from "Recipes" inner join "RecipeProducts" on "Recipes".id = "RecipeProducts"."recipeId" inner join "Products" on "Products".id = "RecipeProducts"."productId" where lower("Products"."name") like lower('${request.query.products}')`
   } else if(request.query.products && request.query.products.split(',').length > 1) {
     const products = request.query.products.split(',')
-    sqlRequest = `select "Recipes".* from "Recipes" inner join "RecipeProducts" on "Recipes".id = "RecipeProducts"."recipeId" inner join "Products" on "Products".id = "RecipeProducts"."productId" where lower("Products"."name") like '${products[0]}'`
+    sqlRequest = `select "Recipes".* from "Recipes" inner join "RecipeProducts" on "Recipes".id = "RecipeProducts"."recipeId" inner join "Products" on "Products".id = "RecipeProducts"."productId" where lower("Products"."name") like lower('${products[0]}')`
 
     for (let index = 1; index < products.length; index++) {
-      sqlRequest += ` or lower("Products"."name") like '${products[index]}' `
+      sqlRequest += ` or lower("Products"."name") like lower('${products[index]}') `
     }
 
     sqlRequest += ` group by "Recipes".id having count("Recipes".id) > ${products.length - 1}`
