@@ -27,6 +27,10 @@ module.exports = {
         allowNull: false,
         defaultValue: 0
       },
+      sellable: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       productCategoryId: {
         type: Sequelize.INTEGER
       },
