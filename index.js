@@ -9,6 +9,7 @@ const recipeController = require('./controllers/recipe')
 const recipeProductController = require('./controllers/recipe_product')
 const basketController = require('./controllers/basket')
 const commandController = require('./controllers/command')
+const retailerController = require('./controllers/retailer')
 const PORT = process.env.PORT || 3000
 
 app.use(bodyParser.json());
@@ -71,6 +72,12 @@ app.get('/api/recipeproducts', recipeProductController.getRecipeProduct);
 app.post('/api/recipeproducts', recipeProductController.addRecipeProduct);
 app.put('/api/recipeproducts', recipeProductController.updateRecipeProduct);
 app.delete('/api/recipeproducts', recipeProductController.deleteRecipeProduct);
+
+// Retailer Actions
+app.get('/api/retailers', retailerController.getRetailer);
+app.post('/api/retailers', retailerController.addRetailer);
+app.put('/api/retailers', retailerController.updateRetailer);
+app.delete('/api/retailers', retailerController.deleteRetailer);
 
 app.get('*', (req, res) => {
     res.status('404')
