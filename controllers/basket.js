@@ -22,8 +22,8 @@ const getBasket = async (request, response) => {
 
   for (let result of results) {
     result.products = await pool.query(`select "Products".* from "BasketProducts" inner join "Products" on "Products"."id" = "BasketProducts"."productId" where "BasketProducts"."basketId" = ${result.id}`).then(response => response.rows)
-    result.products.forEach(product => apiManager.deleteUselessAttributes(product))
-    apiManager.deleteUselessAttributes(result)
+    result.products.forEach(product => apiManager.deleteUselessAttributes(product, ['updatedAt','createdAt']))
+    apiManager.deleteUselessAttributes(result, ['updatedAt','createdAt'])
   }
 
   response.status(200).json(results)
