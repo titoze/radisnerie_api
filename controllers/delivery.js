@@ -1,3 +1,4 @@
+const apiManager = require('../helpers/apiManager')
 const pool = require('../database/credentials').pool;
 
 const getDelivery = async (request, response) => {
@@ -19,6 +20,11 @@ const getDelivery = async (request, response) => {
   if (results.rows.length === 0) {
     response.status(404).json('No delivery(ies) were found.')
     return
+  }
+
+  for (let result of results.rows) {
+    result.products = await pool.query(`select "DeliveryProducts".*, "Products"."name" from "DeliveryProducts"  inner join "Products" on "DeliveryProducts"."productId" = "Products".id where "DeliveryProducts"."deliveryId" = ${result.id}`).then(response => response.rows)
+    result.products.forEach(product => apiManager.deleteUselessAttributes(product, ['createdAt', 'updatedAt','id','deliveryId','productId']))
   }
 
   response.status(200).json(results.rows)
