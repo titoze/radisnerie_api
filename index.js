@@ -28,6 +28,10 @@ app.get('/', (req, res) => res.json({
     radisnerie: "API"
 }))
 
+process.on('uncaughtException', function (error) {
+    console.log(error.stack);
+ });
+
 // Product Categories Actions
 app.get('/api/productcategories', ProductCategoryController.getProductCategory);
 app.post('/api/productcategories', ProductCategoryController.addProductCategory);
