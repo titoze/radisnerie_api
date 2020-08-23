@@ -31,10 +31,10 @@ const getCommand = async (request, response) => {
 
   for (let result of results) {
     result.baskets = await pool.query(`select "Baskets".* from "CommandBaskets" inner join "Baskets" on "Baskets"."id" = "CommandBaskets"."basketId" where "CommandBaskets"."commandId" = ${result.id}`).then(response => response.rows)
-    result.baskets.forEach(product => apiManager.deleteUselessAttributes(product))
+    result.baskets.forEach(product => apiManager.deleteUselessAttributes(product, ['updatedAt','createdAt']))
     result.client = clientInformation
     delete result.userId
-    apiManager.deleteUselessAttributes(result)
+    apiManager.deleteUselessAttributes(result, ['updatedAt','createdAt'])
   }
 
   response.status(200).json(results)

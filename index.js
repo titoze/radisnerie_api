@@ -10,6 +10,7 @@ const recipeProductController = require('./controllers/recipe_product')
 const basketController = require('./controllers/basket')
 const commandController = require('./controllers/command')
 const retailerController = require('./controllers/retailer')
+const deliveryController = require('./controllers/delivery')
 const PORT = process.env.PORT || 3000
 
 app.use(bodyParser.json());
@@ -78,6 +79,12 @@ app.get('/api/retailers', retailerController.getRetailer);
 app.post('/api/retailers', retailerController.addRetailer);
 app.put('/api/retailers', retailerController.updateRetailer);
 app.delete('/api/retailers', retailerController.deleteRetailer);
+
+// Deliveries Actions
+app.get('/api/deliveries', deliveryController.getDelivery);
+app.post('/api/deliveries', deliveryController.addDelivery);
+app.put('/api/deliveries', deliveryController.updateDelivery);
+app.delete('/api/deliveries', deliveryController.deleteDelivery);
 
 app.get('*', (req, res) => {
     res.status('404')
