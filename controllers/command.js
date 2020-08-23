@@ -11,7 +11,7 @@ const getCommand = async (request, response) => {
   }  else if (request.query.id && request.query.id !== 'all') {
     sqlRequest = `select * from "Commands" where id = ${request.query.id}`
   }  else if (request.query.userId && request.query.lastCommand) {
-    sqlRequest = `select * from "Commands" where "Commands"."userId" = ${request.query.userId} order by date desc limit 1`
+    sqlRequest = `select * from "Commands" where "Commands"."userId" = ${request.query.userId} order by createdAt desc limit 1`
   } else if (request.query.userId) {
     sqlRequest = `SELECT * FROM "Commands" where "Commands"."userId" = ${Number(request.query.userId)}`
   } else {
