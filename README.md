@@ -275,3 +275,54 @@ To update a product set a PUT request to this url &rarr; [https://radisnerie-api
 
 #### Method DELETE
 There's no delete method for commands.
+
+## Retailer
+#### Method GET
+To get all baskets visit [https://radisnerie-api-production.herokuapp.com/api/retailers?id=all](https://radisnerie-api-production.herokuapp.com/api/retailers?id=all).
+
+
+To get a particular basket visit [https://radisnerie-api-production.herokuapp.com/api/retailers?id=1](https://radisnerie-api-production.herokuapp.com/api/retailers?id=1).
+
+#### Method POST
+To add a new retailer set a POST request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/retailers](https://radisnerie-api-production.herokuapp.com/api/retailers) with this body content :
+
+```
+{
+        "name": "La ferme du Nord",
+        "owner_firstname": "Jean",
+        "owner_lastname": "Ferme",
+        "city": "Lomme",
+        "zip": "59160",
+        "address": "Rue de la pature",
+        "additional_address": null,
+        "phone": "+33658624512",
+        "email": "lafermedunord@gmail.com"
+}
+```
+
+
+#### Method PUT
+To update a retailer set a PUT request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/retailers](https://radisnerie-api-production.herokuapp.com/api/retailers) with this body content :
+```
+{
+        "id": 1,
+        "name": "La ferme du Nord",
+        "owner_firstname": "Jean",
+        "owner_lastname": "Ferme",
+        "city": "Lomme",
+        "zip": "59160",
+        "address": "Rue de la pature",
+        "additional_address": null,
+        "phone": "+33658624512",
+        "email": "lafermedunord@gmail.com"
+}
+```
+
+
+#### Method DELETE
+To delete a retailer set a POST request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/retailers](https://radisnerie-api-production.herokuapp.com/api/retailers) with this body content :
+```
+{
+        "id" : 5
+}
+```
