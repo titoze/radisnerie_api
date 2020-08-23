@@ -29,7 +29,7 @@ const getUser = async (request, response) => {
 
 const addUser = async (request, response) => {
   const encryptedPassword = await bcrypt.hash(request.body.password, 10)
-  pool.query(`INSERT INTO "Users" ("firstname", "lastname", "email", "address", "additional_address", "city", "zip", "password", "is_premium") VALUES ('${request.body.firstname}', '${request.body.lastname}', '${request.body.email}', '${request.body.address}', '${request.body.additional_address}', '${request.body.city}', '${request.body.zip}', '${encryptedPassword}', '${request.body.is_premium}')`, (error, results) => {
+  pool.query(`INSERT INTO "Users" ("firstname", "lastname", "email", "address", "additional_address", "city", "zip", "password") VALUES ('${request.body.firstname}', '${request.body.lastname}', '${request.body.email}', '${request.body.address}', '${request.body.additional_address}', '${request.body.city}', '${request.body.zip}', '${encryptedPassword}')`, (error, results) => {
     if (error) {
       if (error.code === '23505') {
         response.status(404).json({
