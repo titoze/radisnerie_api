@@ -234,3 +234,44 @@ To delete a product set a POST request to this url &rarr; [https://radisnerie-ap
         "id" : 5
 }
 ```
+
+## Command
+#### Method GET
+To get all commands visit [https://radisnerie-api-production.herokuapp.com/api/commands?id=all](https://radisnerie-api-production.herokuapp.com/api/commands?id=all).
+
+
+To get a particular command visit [https://radisnerie-api-production.herokuapp.com/api/commands?id=1](https://radisnerie-api-production.herokuapp.com/api/commands?id=1).
+
+To get command of particular user id visit [https://radisnerie-api-production.herokuapp.com/api/commands?userId=2](https://radisnerie-api-production.herokuapp.com/api/commands?userId=2).
+
+To get last command of particular user id visit [https://radisnerie-api-production.herokuapp.com/api/commands?userId=2&lastCommand=true](https://radisnerie-api-production.herokuapp.com/api/commands?userId=2&lastCommand=true).
+
+#### Method POST
+To add a new command set a POST request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/commands](https://radisnerie-api-production.herokuapp.com/api/commands) with this body content :
+
+```
+{
+        "userId": 1,
+        "price": 20,
+        "address": "82 Rue du poisson rouge",
+        "additional_address": "Appartement d05",
+        "city": "Lomme",
+        "zip": "59001",
+        "deliveryDate": "2020-08-23T12:41:47.464Z (NEW DATE())",
+        "baskets": [1]
+}
+```
+
+
+#### Method PUT
+To update a product set a PUT request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/baskets](https://radisnerie-api-production.herokuapp.com/api/baskets) with this body content (only the delivery status can be updated, id is the reference of the command) :
+```
+{
+        "id": 4,
+        "deliveryStatus": "SEND"
+}
+```
+
+
+#### Method DELETE
+There's no delete method for commands.
