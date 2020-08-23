@@ -326,3 +326,72 @@ To delete a retailer set a POST request to this url &rarr; [https://radisnerie-a
         "id" : 5
 }
 ```
+
+## Delivery
+#### Method GET
+To get all deliveries visit [https://radisnerie-api-production.herokuapp.com/api/deliveries?id=all](https://radisnerie-api-production.herokuapp.com/api/deliveries?id=all).
+
+
+To get a particular delivery visit [https://radisnerie-api-production.herokuapp.com/api/deliveries?id=1](https://radisnerie-api-production.herokuapp.com/api/deliveries?id=1).
+
+To get a particular delivery visit [https://radisnerie-api-production.herokuapp.com/api/deliveries?id=1](https://radisnerie-api-production.herokuapp.com/api/deliveries?id=1).
+
+To get a particular delivery  by retailerId visit [https://radisnerie-api-production.herokuapp.com/api/deliveries?retailerId=1](https://radisnerie-api-production.herokuapp.com/api/deliveries?retailerId=1).
+
+#### Method POST
+To add a new delivery set a POST request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/deliveries](https://radisnerie-api-production.herokuapp.com/api/deliveries) with this body content :
+
+```
+{
+        "retailerId": 2,
+        "price": 100,
+        "products": [
+            {
+                "quantity": 100,
+                "id": 1
+            },
+            {
+                "quantity": 50,
+                "id": 3
+            },
+            {
+                "quantity": 20,
+                "id": 2
+            }
+        ]
+    }
+```
+
+
+#### Method PUT
+To update a delivery set a PUT request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/deliveries](https://radisnerie-api-production.herokuapp.com/api/deliveries) with this body content :
+```
+{
+        "id": 1,
+        "retailerId": 2,
+        "price": 100,
+        "products": [
+            {
+                "quantity": 10,
+                "id": 1
+            },
+            {
+                "quantity": 50,
+                "id": 3
+            },
+            {
+                "quantity": 20,
+                "id": 2
+            }
+        ]
+}
+```
+
+
+#### Method DELETE
+To delete a delivery set a POST request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/retailers](https://radisnerie-api-production.herokuapp.com/api/retailers) with this body content :
+```
+{
+        "id" : 5
+}
+```

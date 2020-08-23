@@ -30,24 +30,48 @@ const getDelivery = async (request, response) => {
   response.status(200).json(results.rows)
 }
 
-const addDelivery = (request, response) => {
-  pool.query(`INSERT INTO "Deliveries" ("retailerId", "price") VALUES ('${request.body.retailerId}', '${request.body.price}')`, (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(200).json('Delivery succesfully added')
-  })
+const addDelivery = async (request, response) => {
+ const dbReponse = await pool.query(`INSERT INTO "Deliveries" ("retailerId", "price") VALUES ('${request.body.retailerId}', '${request.body.price}') returning id`)
+ const id = dbReponse.rows[0].id
+ 
+ if (request.body.products.length > 0) {
+  for (let product of request.body.products) {
+    await pool.query(`INSERT INTO "DeliveryProducts" ("productId", "deliveryId", "quantity") VALUES ('${product.id}', '${id}', '${product.quantity}')`)
+  }
+ }
+
+  response.status(200).json('Delivery succesfully added')
 }
 
-const updateDelivery = (request, response) => {
+const updateDelivery = async (request, response) => {
   const date = new Date().toLocaleString()
-  
-   pool.query(`Update "Deliveries" SET "retailerId" = '${request.body.retailerId}',"price" = '${request.body.price}',"status" = '${request.body.status}', "updatedAt" = '${date}' where id = ${request.body.id}`, (error, results) => {
-    if (error) {
-      throw error
+
+  try {
+    await pool.query(`Update "Deliveries" SET "retailerId" = '${request.body.retailerId}',"price" = '${request.body.price}',"status" = '${request.body.status}', "updatedAt" = '${date}' where id = ${request.body.id}`)
+    const productsInDelivery = await pool.query(`Select * from "DeliveryProducts" where "deliveryId" = ${request.body.id}`).then(response => response.rows.map(element => element.productId))
+    const productsInRequest = request.body.products.map(element => element.id)
+
+    for (let product of request.body.products) {
+      if (productsInDelivery.includes(product.id)) {
+        await pool.query(`UPDATE "DeliveryProducts" SET "quantity" = '${product.quantity}' where "DeliveryProducts"."deliveryId" = ${request.body.id} and "DeliveryProducts"."productId" = ${product.id}`)
+      }
+
+      if (!productsInDelivery.includes(product.id)) {
+        await pool.query(`INSERT INTO "DeliveryProducts" ("productId", "deliveryId", "quantity") VALUES ('${product.id}', '${request.body.id}', '${product.quantity}')`)
+      }
     }
-    response.status(200).json('Delivery succesfully Updated')
-  })
+
+    for (let element of productsInDelivery) {
+      if (!productsInRequest.includes(element)) {
+        await pool.query(`Delete from "DeliveryProducts" where "productId" = ${element} and "deliveryId" = ${request.body.id}`)
+      }
+    }
+
+   response.status(200).json('Delivery succesfully Updated')
+  } catch (err) {
+    throw err
+  }
+  
 }
 
 const deleteDelivery = (request, response) => {

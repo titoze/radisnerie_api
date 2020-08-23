@@ -68,7 +68,6 @@ const addRecipe = async (request, response) => {
   try {
     const response = await pool.query(`INSERT INTO "Recipes" ("name", "caloric", "realisationTime", "difficulty") VALUES ('${request.body.name}', '${request.body.caloric}', '${request.body.realisationTime}', '${request.body.difficulty}') returning id`)
     const id = response.rows[0].id
-    console.log(id)
 
     if (request.body.products.length > 0) {
       for (let product of request.body.products) {
