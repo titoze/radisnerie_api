@@ -191,3 +191,46 @@ To delete a product set a PUT request to this url &rarr; [https://radisnerie-api
         "id" : 5
 }
 ```
+
+## Basket
+#### Method GET
+To get all baskets visit [https://radisnerie-api-production.herokuapp.com/api/baskets?id=all](https://radisnerie-api-production.herokuapp.com/api/baskets?id=all).
+
+
+To get a particular basket visit [https://radisnerie-api-production.herokuapp.com/api/baskets?id=1](https://radisnerie-api-production.herokuapp.com/api/baskets?id=1).
+
+#### Method POST
+To add a new product set a POST request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/baskets](https://radisnerie-api-production.herokuapp.com/api/baskets) with this body content :
+
+```
+{
+        "name": "Ton panier préféré",
+        "price": 20,
+        "description": "Découvrez le panier qui réchauffe vos papilles !",
+        "image": "http://www.tonimage.fr/panier.jpg",
+        "products": [1,2,3,4]
+}
+```
+
+
+#### Method PUT
+To update a product set a PUT request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/baskets](https://radisnerie-api-production.herokuapp.com/api/baskets) with this body content :
+```
+{
+        "id": 1,
+        "name": "Ton panier préféré",
+        "price": 20,
+        "description": "Découvrez le panier qui réchauffe vos papilles !",
+        "image": "http://www.tonimage.fr/panier.jpg",
+        "products": [1,2,3,4]
+}
+```
+
+
+#### Method DELETE
+To delete a product set a POST request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/baskets](https://radisnerie-api-production.herokuapp.com/api/baskets) with this body content :
+```
+{
+        "id" : 5
+}
+```
