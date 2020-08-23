@@ -395,3 +395,51 @@ To delete a delivery set a POST request to this url &rarr; [https://radisnerie-a
         "id" : 5
 }
 ```
+
+## User
+#### Method GET
+To get all users visit [https://radisnerie-api-production.herokuapp.com/api/users?id=all](https://radisnerie-api-production.herokuapp.com/api/users?id=all).
+
+To get a particular user visit [https://radisnerie-api-production.herokuapp.com/api/users?id=1](https://radisnerie-api-production.herokuapp.com/api/users?id=1).
+
+#### Method POST
+To add a new user set a POST request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/users](https://radisnerie-api-production.herokuapp.com/api/users) with this body content :
+
+```
+{
+        "firstname": "Super",
+        "lastname": "Admin",
+        "email": "admin2@rasdinerie.com",
+        "address": "1 rue victor hugo",
+        "additional_address": null,
+        "city": "Lille",
+        "zip": "59000",
+        "password": "password"
+}
+```
+
+
+#### Method PUT
+To update a user set a PUT request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/users](https://radisnerie-api-production.herokuapp.com/api/users) with this body content :
+```
+{
+        "id": 1,
+        "firstname": "Super",
+        "lastname": "Admin",
+        "email": "admin2@rasdinerie.com",
+        "address": "1 rue victor hugo",
+        "additional_address": null,
+        "city": "Lille",
+        "zip": "59000",
+        "password": "password",
+        "is_premium": true
+}
+```
+
+#### Method DELETE
+To delete a user set a POST request to this url &rarr; [https://radisnerie-api-production.herokuapp.com/api/users](https://radisnerie-api-production.herokuapp.com/api/users) with this body content :
+```
+{
+        "id" : 5
+}
+```
