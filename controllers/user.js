@@ -44,10 +44,11 @@ const addUser = async (request, response) => {
   })
 }
 
-const updateUser = (request, response) => {
+const updateUser = async (request, response) => {
   const date = new Date().toLocaleString()
+  const encryptedPassword = await bcrypt.hash(request.body.password, 10)
 
-  pool.query(`Update "Users" SET "firstname" = '${request.body.firstname}', "lastname" = '${request.body.lastname}', "email" = '${request.body.email}', "address" = '${request.body.address}', "additional_address" = '${request.body.additional_address}', "city" = '${request.body.city}', "zip" = '${request.body.zip}', "password" = '${request.body.password}', "is_premium" = '${request.body.is_premium}', "updatedAt" = '${date}' where id = ${request.body.id}`, (error, results) => {
+  pool.query(`Update "Users" SET "firstname" = '${request.body.firstname}', "lastname" = '${request.body.lastname}', "email" = '${request.body.email}', "address" = '${request.body.address}', "additional_address" = '${request.body.additional_address}', "city" = '${request.body.city}', "zip" = '${request.body.zip}', "password" = '${encryptedPassword}', "is_premium" = '${request.body.is_premium}', "updatedAt" = '${date}' where id = ${request.body.id}`, (error, results) => {
     if (error) {
       throw error
     }
